@@ -1,0 +1,5 @@
+TestFact1->TestFact3
+
+TestFact4||TestFact5->TestFact6
+----------------------------------------------------------------
+TestFact1
