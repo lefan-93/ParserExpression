@@ -12,7 +12,6 @@ public class TextParser {
     private static final String SEPARATOR = "----------------------------------------------------------------";
     private int charIndex, bracketCount, lineCount;
 
-
     private enum State {
         RULE,
         FACT,
@@ -34,7 +33,7 @@ public class TextParser {
         OR
     }
 
-    private String parseFact(String fact) throws ParserException {
+    private String validateFact(String fact) throws ParserException {
         if (!fact.matches(FACT_PATTERN))
             throw new ParserException("Wrong format of fact", lineCount);
         return fact;
@@ -47,7 +46,7 @@ public class TextParser {
         if (stringRule.length != 2) {
             throw new ParserException("Wrong format of rule", lineCount);
         }
-        return new Rule(parseExpression(stringRule[0].trim()), parseFact(stringRule[1].trim()));
+        return new Rule(parseExpression(stringRule[0].trim()), validateFact(stringRule[1].trim()));
 
     }
 
@@ -216,7 +215,7 @@ public class TextParser {
                             throw new ParserException("Wrong format record of facts");
                         String[] str = line.split(",");
                         for (String fact : str) {
-                            facts.add(parseFact(fact.trim()));
+                            facts.add(validateFact(fact.trim()));
                         }
                         state = State.FINISH;
                         break;
