@@ -10,7 +10,7 @@ import model.*;
 
 import java.util.*;
 
-public class DBParser {
+public class DBParser implements IParser {
 
     private ParserDao dao;
 
@@ -20,6 +20,7 @@ public class DBParser {
         }
         if (expressionDto.getExpressionType() != ExpressionType.AND && expressionDto.getExpressionType() != ExpressionType.OR)
             throw new ParserException("Wrong format of rule", expressionDto.getExpression_id());
+
         List<IExpression> expressions = new ArrayList<>();
         for (ExpressionDto child : dao.getChildren(expressionDto.getExpression_id())) {
             expressions.add(AssembleExpression(child));
@@ -27,7 +28,8 @@ public class DBParser {
         return expressionDto.getExpressionType() == ExpressionType.AND ? new AndExpression(expressions) : new OrExpression(expressions);
     }
 
-    public Model parseDataBase(String propertiesFile) throws Exception {
+    @Override
+    public Model parse(String propertiesFile) throws Exception {
 
         dao = new ParserDaoImpl(propertiesFile);
         ArrayList<RuleDto> rulesDto = dao.getRules();

@@ -24,7 +24,7 @@ public class ModelTest {
         answer.add("D");
         try {
             TextParser textParser = new TextParser();
-            Model model = textParser.parseFile("target/test_resources/model_Processing_Tests/modelProcessingTest1");
+            Model model = textParser.parse("target/test_resources/model_Processing_Tests/modelProcessingTest1");
             model.evaluate();
             Set<String> answerCalculate = new HashSet<>(model.getFacts());
             assertEquals(answer, answerCalculate);
@@ -42,7 +42,7 @@ public class ModelTest {
         answer.add("TestFact2");
         try {
             TextParser textParser = new TextParser();
-            Model model =  textParser.parseFile("target/test_resources/model_Processing_Tests/modelProcessingTest2");
+            Model model =  textParser.parse("target/test_resources/model_Processing_Tests/modelProcessingTest2");
             model.evaluate();
             List<String> answerCalculate = new ArrayList<>(model.getFacts());
             assertEquals(answer, answerCalculate);
@@ -59,7 +59,7 @@ public class ModelTest {
         answer.add("TestFact3");
         try {
             TextParser textParser = new TextParser();
-            Model model =  textParser.parseFile("target/test_resources/model_Processing_Tests/modelProcessingTest3");
+            Model model =  textParser.parse("target/test_resources/model_Processing_Tests/modelProcessingTest3");
             model.evaluate();
             List<String> answerCalculate = new ArrayList<>(model.getFacts());
             assertEquals(answer, answerCalculate);
@@ -77,7 +77,7 @@ public class ModelTest {
         answer.add("F");
         try {
             TextParser textParser = new TextParser();
-            Model model =  textParser.parseFile("target/test_resources/model_Processing_Tests/modelProcessingTest4");
+            Model model =  textParser.parse("target/test_resources/model_Processing_Tests/modelProcessingTest4");
             model.evaluate();
             List<String> answerCalculate = new ArrayList<>(model.getFacts());
             assertEquals(answer, answerCalculate);
@@ -94,7 +94,7 @@ public class ModelTest {
         answer.add("B");
         try {
             TextParser textParser = new TextParser();
-            Model model =  textParser.parseFile("target/test_resources/model_Processing_Tests/modelProcessingTest5");
+            Model model =  textParser.parse("target/test_resources/model_Processing_Tests/modelProcessingTest5");
             model.evaluate();
             List<String> answerCalculate = new ArrayList<>(model.getFacts());
             assertEquals(answer, answerCalculate);
@@ -112,7 +112,7 @@ public class ModelTest {
         answer.add("F");
         try {
             TextParser textParser = new TextParser();
-            Model model =  textParser.parseFile("target/test_resources/model_Processing_Tests/modelProcessingTest6");
+            Model model =  textParser.parse("target/test_resources/model_Processing_Tests/modelProcessingTest6");
             model.evaluate();
             List<String> answerCalculate = new ArrayList<>(model.getFacts());
             assertEquals(answer, answerCalculate);

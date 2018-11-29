@@ -7,7 +7,7 @@ import java.io.*;
 import java.util.*;
 import java.util.List;
 
-public class TextParser {
+public class TextParser implements IParser {
     private static final String FACT_PATTERN = "^[_]*[a-zA-Z]+[a-zA-Z0-9_]*$";
     private static final String SEPARATOR = "----------------------------------------------------------------";
     private int charIndex, bracketCount, lineCount;
@@ -182,7 +182,8 @@ public class TextParser {
         return AssembleExpression(orExpressions, andExpressions, interimExp, currentExpression);
     }
 
-    public Model parseFile(String filePath) throws ParserException, IOException {
+    @Override
+    public Model parse(String filePath) throws Exception {
         LinkedList<Rule> rules = new LinkedList<>();
         Set<String> facts = new HashSet<>();
         lineCount = 0;
