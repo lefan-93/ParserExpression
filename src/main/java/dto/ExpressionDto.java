@@ -2,19 +2,8 @@ package dto;
 
 public class ExpressionDto {
 
-    private Integer expression_id;
-    private ExpressionType expression_type;
-    private String fact;
+    public Integer expression_id;
+    public ExpressionType expression_type;
+    public String fact;
 
-    public Integer getExpression_id() {
-        return expression_id;
-    }
-
-    public ExpressionType getExpressionType() {
-        return expression_type;
-    }
-
-    public String getFact() {
-        return fact;
-    }
 }

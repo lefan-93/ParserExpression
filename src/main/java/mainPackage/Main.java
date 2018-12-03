@@ -1,12 +1,8 @@
 package mainPackage;
 
-import factory.DBModelParser;
-import factory.ModelParser;
-import factory.TextModelParser;
+import engine.Engine;
+import interconnection.UserConsoleInterconnection;
 import org.apache.commons.cli.*;
-
-import java.util.Iterator;
-import java.util.Set;
 
 public class Main {
 
@@ -35,38 +31,43 @@ public class Main {
                 .longOpt("database")
                 .desc("select this option for reading rules from database")
                 .build();
+        Option inserOption = Option.builder("i")
+                .hasArg()
+                .argName("file_path, file_properties ")
+                .numberOfArgs(2)
+                .valueSeparator(' ')
+                .longOpt("insert")
+                .desc("select this option for inserting txt to database")
+                .build();
         Option helpOption = new Option("h", "help", false, "help with options.");
         optionGroup.addOption(fileOption)
                 .addOption(dbOption)
-                .addOption(helpOption);
+                .addOption(helpOption)
+                .addOption(inserOption);
         options.addOptionGroup(optionGroup);
         HelpFormatter help = new HelpFormatter();
         CommandLineParser lineParser = new DefaultParser();
         try {
             CommandLine cmd = lineParser.parse(options, args);
             String path;
-            ModelParser modelParser;
             if (cmd.hasOption("h")) {
                 help.setSyntaxPrefix("Reference:");
                 help.printHelp(" to launch the application you can use the following commands: ", options);
-                return;
             } else if (cmd.hasOption("f")) {
                 path = cmd.getOptionValue("f");
-                modelParser = new TextModelParser();
+                Engine engine = new Engine(new UserConsoleInterconnection());
+                engine.evaluate('f', path);
             } else if (cmd.hasOption("b")) {
                 path = cmd.getOptionValue("b");
-                modelParser = new DBModelParser();
+                Engine engine = new Engine(new UserConsoleInterconnection());
+                engine.evaluate('b', path);
+            } else if (cmd.hasOption("i")) {
+                String[] arguments = cmd.getOptionValues("i");
+                Engine engine = new Engine(new UserConsoleInterconnection());
+                engine.insertDataBase(arguments[0], arguments[1]);
             } else {
                 help.setSyntaxPrefix("Error:");
                 help.printHelp(" To correctly launch the application, you must enter one of the following options.", options);
-                return;
-            }
-            Set<String> facts = modelParser.evaluate(path);
-            Iterator itr = facts.iterator();
-            // The  set of facts has been verified previously, so this method should not throw an exception.
-            System.out.print(itr.next());
-            while (itr.hasNext()) {
-                System.out.print("," + itr.next());
             }
         } catch (Exception e) {
             System.out.print(e.getMessage());

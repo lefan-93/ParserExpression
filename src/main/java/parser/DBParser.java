@@ -15,17 +15,14 @@ public class DBParser implements IParser {
     private ParserDao dao;
 
     private IExpression AssembleExpression(ExpressionDto expressionDto) throws ParserException {
-        if (expressionDto.getExpressionType() == ExpressionType.FACT) {
-            return new FactExpression(expressionDto.getFact());
+        if (expressionDto.expression_type == ExpressionType.FACT) {
+            return new FactExpression(expressionDto.fact);
         }
-        if (expressionDto.getExpressionType() != ExpressionType.AND && expressionDto.getExpressionType() != ExpressionType.OR)
-            throw new ParserException("Wrong format of rule", expressionDto.getExpression_id());
-
         List<IExpression> expressions = new ArrayList<>();
-        for (ExpressionDto child : dao.getChildren(expressionDto.getExpression_id())) {
+        for (ExpressionDto child : dao.getChildren(expressionDto)) {
             expressions.add(AssembleExpression(child));
         }
-        return expressionDto.getExpressionType() == ExpressionType.AND ? new AndExpression(expressions) : new OrExpression(expressions);
+        return expressionDto.expression_type == ExpressionType.AND ? new AndExpression(expressions) : new OrExpression(expressions);
     }
 
     @Override
@@ -36,8 +33,8 @@ public class DBParser implements IParser {
         LinkedList<Rule> rules = new LinkedList<>();
         HashSet<String> facts = new HashSet<>(dao.getKnownFacts());
         for (RuleDto ruleDto : rulesDto) {
-            ExpressionDto expressionDto = dao.getExpression(ruleDto.getExpression_id());
-            rules.add(new Rule(AssembleExpression(expressionDto), ruleDto.getFact()));
+            ExpressionDto expressionDto = dao.getExpression(ruleDto.expression);
+            rules.add(new Rule(AssembleExpression(expressionDto), ruleDto.fact));
         }
         return new Model(rules, facts);
     }

@@ -7,4 +7,6 @@ public interface FactMapper {
 
     ArrayList<String> getKnownFacts();
 
+    void insertKnownFact (String fact);
+
 }

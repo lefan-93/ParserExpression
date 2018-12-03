@@ -31,9 +31,30 @@ public class Model {
 
     }
 
-
     public Set<String> getFacts() {
         return facts;
+    }
+
+    public LinkedList<Rule> getRules() {
+        return rules;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Model model = (Model) o;
+
+        if (rules != null ? !rules.equals(model.rules) : model.rules != null) return false;
+        return facts != null ? facts.equals(model.facts) : model.facts == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = rules != null ? rules.hashCode() : 0;
+        result = 31 * result + (facts != null ? facts.hashCode() : 0);
+        return result;
     }
 }
 

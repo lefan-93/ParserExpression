@@ -4,4 +4,9 @@
             resultType="java.lang.String">
         select fact from known_facts
     </select>
+    <insert
+            id="insertKnownFact"
+            parameterType="java.lang.String">
+        insert into known_facts ("fact") VALUES ( #{fact})
+    </insert>
 </mapper>
