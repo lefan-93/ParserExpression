@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="Model" type="modelType"/>
+
+    <xs:complexType name="modelType">
+        <xs:sequence>
+            <xs:element name="Rules" minOccurs="1" maxOccurs="1" type="rulesType"/>
+            <xs:element name="KnownFacts" minOccurs="1" maxOccurs="1" type="knownFactsType"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="rulesType">
+        <xs:sequence>
+            <xs:element name="Rule" type="ruleType" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ruleType">
+        <xs:sequence>
+            <xs:choice minOccurs="1" maxOccurs="1">
+                <xs:element name="And" type="expressionType"/>
+                <xs:element name="Or" type="expressionType"/>
+                <xs:element name="Fact" type="factExpressionType"/>
+            </xs:choice>
+        </xs:sequence>
+        <xs:attribute name="resultFact" type="factType" use="required"/>
+    </xs:complexType>
+    <xs:complexType name="factExpressionType">
+        <xs:attribute name="fact" type="factType" use="required"/>
+    </xs:complexType>
+    <xs:complexType name="knownFactsType">
+        <xs:sequence>
+            <xs:element name="Fact" type="factType" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="factType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[_]*[a-zA-Z]+[a-zA-Z0-9_]*"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="expressionType">
+        <xs:sequence>
+            <xs:choice minOccurs="2" maxOccurs="unbounded">
+                <xs:element name="And" type="expressionType"/>
+                <xs:element name="Or" type="expressionType"/>
+                <xs:element name="Fact" type="factExpressionType"/>
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>
+
+

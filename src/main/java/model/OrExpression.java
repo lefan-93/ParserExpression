@@ -1,14 +1,21 @@
 package model;
 
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 import java.util.Set;
 
+@XmlRootElement(name = "Or")
 public class OrExpression implements IExpression {
-
+    @XmlAnyElement(lax = true)
     private List<IExpression> operands;
 
     public OrExpression(List<IExpression> operands) {
         this.operands = operands;
+    }
+
+    //This constructor is required for JAXB to work correctly.
+    public OrExpression() {
     }
 
     @Override

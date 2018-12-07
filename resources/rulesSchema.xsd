@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="model" type="modelType"/>
+
+    <xs:complexType name="modelType">
+        <xs:sequence>
+            <xs:element name="rules" type="rulesType"/>
+            <xs:element name="facts" type="factsType"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="rulesType">
+        <xs:sequence>
+            <xs:element name="rule" type="ruleType" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ruleType">
+        <xs:sequence>
+            <xs:choice minOccurs="1" maxOccurs="1">
+                <xs:element name="andExpression" type="xs:anyType"/>
+                <xs:element name="orExpression" type="xs:anyType"/>
+                <xs:element name="factExpression" type="factExpressionType"/>
+            </xs:choice>
+            <xs:element name="fact" type="factType"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="factExpressionType">
+        <xs:sequence>
+            <xs:element name="fact" type="factType"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="factsType">
+        <xs:sequence>
+            <xs:element name="fact" type="factType" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="factType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[a-zA-Z]+[a-zA-Z0-9_]*"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>
+
+

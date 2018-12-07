@@ -1,15 +1,23 @@
 package model;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+@XmlRootElement(name = "Fact")
 public class FactExpression implements IExpression {
+    @XmlAttribute(name = "fact")
     private String fact;
 
     public FactExpression(String fact) {
         this.fact = fact;
     }
+
+    //This constructor is required for JAXB to work correctly.
+    public FactExpression(){}
 
     public String getFact() {
         return fact;

@@ -9,4 +9,5 @@ public interface Interconnection {
 
     void showMessage(String message);
 
+    void showErrorMessage(String errorMessage);
 }

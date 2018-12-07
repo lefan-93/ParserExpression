@@ -1,16 +1,24 @@
 package model;
 
+import javax.xml.bind.annotation.*;
 import java.util.*;
-
+@XmlRootElement(name = "Model")
 public class Model {
     //The LinkedList is used because the method "remove" is faster here.
+    @XmlAnyElement(lax = true)
+    @XmlElementWrapper(name = "Rules")
     private LinkedList<Rule> rules;
+    @XmlElement(name = "Fact")
+    @XmlElementWrapper(name = "KnownFacts")
     private Set<String> facts;
 
     public Model(LinkedList<Rule> rules, Set<String> facts) {
         this.rules = rules;
         this.facts = facts;
     }
+
+    //This constructor is required for JAXB to work correctly.
+    public Model(){}
 
     public void evaluate() {
         Rule rule;

@@ -3,7 +3,10 @@ package reader;
 import dao.ParserDao;
 import daoImplement.ParserDaoImpl;
 import dto.ExpressionDto;
+import dto.ExpressionType;
 import dto.RuleDto;
+import model.FactExpression;
+import model.IExpression;
 import model.Model;
 import org.junit.Assert;
 import org.junit.Ignore;
@@ -24,16 +27,16 @@ import static junit.framework.TestCase.fail;
 
 
 public class DBParserTest {
-   /* @Ignore
+
     @Test
     public void ruleMapperTest() throws Exception {
         ArrayList<RuleDto> rulesDto = new ArrayList<>();
         ParserDao dao = new ParserDaoImpl("target/test_resources/db_parser_rule_mapper_tests/postgresql_mapper_tests.jdbc.properties");
         ArrayList<RuleDto> rules = dao.getRules();
-        assertEquals(1, (int) rules.get(0).getExpression_id());
-        assertEquals(6, (int) rules.get(1).getExpression_id());
-        assertEquals("E", rules.get(0).getFact());
-        assertEquals("C", rules.get(1).getFact());
+        assertEquals(1, (int) rules.get(0).expression.expression_id);
+        assertEquals(6, (int) rules.get(1).expression.expression_id);
+        assertEquals("E", rules.get(0).fact);
+        assertEquals("C", rules.get(1).fact);
     }
 
     @Test
@@ -43,20 +46,25 @@ public class DBParserTest {
         assertEquals("A", facts.get(0));
         assertEquals("D", facts.get(1));
     }
-    @Ignore
+
     @Test
     public void ExpressionMapperTest() throws Exception {
         ParserDao dao = new ParserDaoImpl("target/test_resources/db_parser_rule_mapper_tests/postgresql_mapper_tests.jdbc.properties");
-        ExpressionDto expr = dao.getExpression(3);
-        assertEquals("A", expr.getFact());
+        ExpressionDto expressionDto = new ExpressionDto();
+        expressionDto.expression_id = 3;
+        expressionDto.expression_type= ExpressionType.FACT;
+        expressionDto.fact="A";
+        assertEquals("A", dao.getExpression(expressionDto).fact);
     }
 
     @Test
     public void ExpressionMapperTest1() throws Exception {
         ParserDao dao = new ParserDaoImpl("target/test_resources/db_parser_rule_mapper_tests/postgresql_mapper_tests.jdbc.properties");
-
-        ArrayList<ExpressionDto> children = dao.getChildren(2);
-        assertEquals("A,B", children.get(0).getFact() + "," + children.get(1).getFact());
+        ExpressionDto expressionDto = new ExpressionDto();
+        expressionDto.expression_id = 2;
+        expressionDto.expression_type= ExpressionType.AND;
+        ArrayList<ExpressionDto> children = dao.getChildren(expressionDto);
+        assertEquals("A,B", children.get(0).fact + "," + children.get(1).fact);
     }
     @Test
     public void trueRecordFileTest4() {
@@ -69,9 +77,9 @@ public class DBParserTest {
             Field fieldModel1Rules = model1.getClass().getDeclaredField("facts");
             fieldModel1Rules.setAccessible(true);
             Set<String> rules = (Set<String>) fieldModel1Rules.get(model1);
-            String a = rules.toString();
+            String s = rules.toString();
             String b = testAnswer.toString();
-            assertEquals(b, a);
+            assertEquals(s, b);
         } catch (Exception ex) {
             ex.getMessage();
             ex.printStackTrace();
@@ -96,5 +104,5 @@ public class DBParserTest {
             ex.printStackTrace();
             fail();
         }
-    }*/
+    }
 }

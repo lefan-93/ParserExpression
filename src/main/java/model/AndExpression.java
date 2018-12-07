@@ -1,14 +1,22 @@
 package model;
 
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 import java.util.Set;
 
+@XmlRootElement(name = "And")
 public class AndExpression implements IExpression {
+
+    @XmlAnyElement(lax = true)
     private List<IExpression> operands;
 
     public AndExpression(List<IExpression> operands) {
         this.operands = operands;
     }
+
+    //This constructor is required for JAXB to work correctly.
+    public AndExpression(){}
 
     @Override
     public List<IExpression> getOperands() {

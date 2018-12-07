@@ -1,4 +1,4 @@
-package inserter;
+package converter;
 
 import daoImplement.ParserDaoImpl;
 import dto.ExpressionDto;
@@ -7,10 +7,11 @@ import model.*;
 import parser.DBParser;
 import parser.IParser;
 import parser.TextParser;
+import parser.XmlParser;
 
-import java.util.*;
+import java.util.List;
 
-public class DBInserter {
+public class XmlToDBConverter implements IConverter {
 
     private ParserDaoImpl dao;
 
@@ -38,10 +39,11 @@ public class DBInserter {
         return expressionDto.expression_id;
     }
 
-    public boolean insert(String pathFile, String propertiesFile) throws Exception {
-        IParser parser = new TextParser();
-        Model model = parser.parse(pathFile);
-        dao = new ParserDaoImpl(propertiesFile);
+    @Override
+    public boolean convert(String pathFromFile, String pathToFile) throws Exception {
+        IParser parser = new XmlParser();
+        Model model = parser.parse(pathFromFile);
+        dao = new ParserDaoImpl(pathToFile);
         for (Rule rule : model.getRules()) {
             dao.insertRule(insertExpression(rule.getExpression()), rule.getFact());
         }
@@ -49,9 +51,7 @@ public class DBInserter {
             dao.insertKnownFact(fact);
         }
         parser = new DBParser();
-        Model dbModel = parser.parse(propertiesFile);
+        Model dbModel = parser.parse(pathToFile);
         return model.equals(dbModel);
     }
-
-
 }

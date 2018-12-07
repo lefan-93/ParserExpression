@@ -21,4 +21,9 @@ public class UserConsoleInterconnection implements Interconnection {
 
     }
 
+    @Override
+    public void showErrorMessage(String errorMessage) {
+        System.err.println(errorMessage);
+    }
+
 }

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Model>
+    <Rules>
+    </Rules>
+    <KnownFacts>
+        <Fact>A</Fact>
+        <Fact>S</Fact>
+    </KnownFacts>
+</Model>

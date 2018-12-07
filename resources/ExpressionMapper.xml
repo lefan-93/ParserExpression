@@ -1,0 +1,26 @@
+<!DOCTYPE mapper     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.ExpressionMapper">
+    <select id="getExpression"
+            parameterType="dto.ExpressionDto"
+            resultType="dto.ExpressionDto">
+        select * from expressions where expression_id = #{expression_id}
+    </select>
+    <select id="getChildren"
+            parameterType="dto.ExpressionDto"
+            resultType="dto.ExpressionDto">
+        select e.* from expressions e JOIN expression_relationships rel on rel.child_id = e.expression_id where rel.parent_id = #{expression_id}
+    </select>
+    <insert
+    id="insertExpression"
+            useGeneratedKeys="true"
+            keyProperty="expression_id"
+            keyColumn="expression_id"
+    parameterType="dto.ExpressionDto">
+    insert into expressions ("expression_type","fact") VALUES (#{expression_type}::expression_type, #{fact})
+   </insert>
+    <insert
+            id="insertChildExpressions"
+            parameterType="dto.ExpressionDto">
+        insert into expression_relationships ("parent_id","child_id") VALUES (#{parent_id}, #{child_id})
+    </insert>
+</mapper>

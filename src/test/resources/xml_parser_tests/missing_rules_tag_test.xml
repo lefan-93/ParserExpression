@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Model>
+        <Rule result_fact="F">
+            <And>
+                <Fact fact="D"/>
+                <Fact fact="W"/>
+            </And>
+        </Rule>
+        <Rule result_fact="E">
+            <Or>
+                <Or>
+                    <Fact fact="A"/>
+                    <Fact fact="B"/>
+                </Or>
+                <And>
+                    <Fact fact="C"/>
+                    <And>
+                        <Fact fact="D"/>
+                        <Fact fact="E"/>
+                    </And>
+                </And>
+            </Or>
+        </Rule>
+    <KnownFacts>
+        <Fact>A</Fact>
+        <Fact>S</Fact>
+    </KnownFacts>
+</Model>

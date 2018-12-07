@@ -1,45 +1,92 @@
 package engine;
 
-import inserter.DBInserter;
+import converter.IConverter;
+import converter.TextToDBConverter;
+import converter.TextToXmlConverter;
+import converter.XmlToDBConverter;
 import interconnection.Interconnection;
 import model.Model;
 import parser.DBParser;
 import parser.IParser;
 import parser.TextParser;
+import parser.XmlParser;
+
+import javax.swing.*;
+import javax.xml.bind.JAXBException;
 
 public class Engine {
 
     private Interconnection interconnection;
-    private IParser parser;
+    private String path;
+    private String targetPath;
+    private Mode mode = Mode.NULL;
 
-    public Engine(Interconnection interconnection) {
+    public enum Mode {
+        NULL,
+        TEXT,
+        XML,
+        DATABASE,
+        TEXT_TO_DATABASE,
+        XML_TO_DATABASE,
+        TEXT_TO_XML
+    }
+
+    public Engine(Interconnection interconnection, Mode mode, String path) {
         this.interconnection = interconnection;
+        this.mode = mode;
+        this.path = path;
     }
 
-    public void evaluate(char mode, String path) {
-        try {
-            if (mode == 'f') {
-                parser = new TextParser();
-
-            } else if (mode == 'b') {
-                parser = new DBParser();
-            }
-            Model model = parser.parse(path);
-            model.evaluate();
-            interconnection.showFacts(model.getFacts());
-        } catch (Exception e) {
-            interconnection.showMessage(e.getMessage());
-        }
+    public Engine(Interconnection interconnection, Mode mode, String path, String targetPath) {
+        this.interconnection = interconnection;
+        this.mode = mode;
+        this.path = path;
+        this.targetPath = targetPath;
     }
 
-    public void insertDataBase(String txtFilePath, String dbProperties) {
-        DBInserter dbInserter = new DBInserter();
+    public void run() {
         try {
-            if (dbInserter.insert(txtFilePath, dbProperties)) {
-                interconnection.showMessage("Database write success");
+            switch (mode) {
+                case NULL:
+                    interconnection.showErrorMessage("Unknown error");
+                case TEXT:
+                    parseAndEvaluate(new TextParser(), path);
+                    break;
+                case XML:
+                    parseAndEvaluate(new XmlParser(), path);
+                    break;
+                case DATABASE:
+                    parseAndEvaluate(new DBParser(), path);
+                    break;
+                case TEXT_TO_XML:
+                    convert(new TextToXmlConverter(),path,targetPath);
+                    break;
+                case XML_TO_DATABASE:
+                    convert(new XmlToDBConverter(),path,targetPath);
+                    break;
+                case TEXT_TO_DATABASE:
+                    convert(new TextToDBConverter(), path, targetPath);
+                    break;
             }
+
+        } catch (JAXBException e) {
+            interconnection.showErrorMessage(e.getLinkedException().getMessage());
         } catch (Exception e) {
-            interconnection.showMessage(e.getMessage());
+            interconnection.showErrorMessage(e.getMessage());
         }
+
+    }
+
+    private void parseAndEvaluate(IParser parser, String path) throws Exception {
+        Model model = parser.parse(path);
+        model.evaluate();
+        interconnection.showFacts(model.getFacts());
+
+    }
+
+    private void convert(IConverter converter, String path, String targetPath) throws Exception {
+        converter.convert(path, targetPath);
+        interconnection.showMessage("Conversion successful");
+
     }
 }

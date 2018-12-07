@@ -1,17 +1,26 @@
 package model;
 
 
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Set;
 
+@XmlRootElement(name = "Rule")
 public class Rule {
-
+    @XmlAnyElement(lax = true)
     private IExpression expression;
+    @XmlAttribute(name = "resultFact")
     private String fact;
 
     public Rule(IExpression expression, String fact) {
         this.expression = expression;
         this.fact = fact;
     }
+
+    //This constructor is required for JAXB to work correctly.
+    public Rule(){}
 
     public String evaluate(Set<String> facts) {
         if (expression.evaluate(facts))

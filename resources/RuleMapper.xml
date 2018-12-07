@@ -1,0 +1,29 @@
+<!DOCTYPE mapper     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.RuleMapper">
+    <resultMap id="rule-result" type="dto.RuleDto">
+        <result property="fact" column="fact"/>
+        <association property="expression" column="expression_id" javaType="java.lang.Integer"
+                     resultMap="expression"/>
+    </resultMap>
+    <resultMap id="expression" type="dto.ExpressionDto">
+        <result property="expression_id" column="expression_id"/>
+        <result property="expression_type" column="expression_type"/>
+        <result property="fact" column="expression_fact"/>
+    </resultMap>
+    <select id="getRules"
+            resultMap="rule-result">
+        SELECT rul.fact,
+        e.expression_id as expression_id,
+        e.expression_type as expression_type,
+        e.fact as expression_fact
+        FROM rules rul JOIN expressions e ON rul.expression_id = e.expression_id
+    </select>
+    <insert
+            id="insertRule"
+            useGeneratedKeys="true"
+            keyProperty="rule_id"
+            keyColumn="rule_id"
+            parameterType="dto.RuleDto">
+        insert into rules ("expression_id","fact") VALUES (#{expression_id}, #{fact})
+    </insert>
+</mapper>
