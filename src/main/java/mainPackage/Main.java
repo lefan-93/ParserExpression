@@ -74,12 +74,12 @@ public class Main {
         options.addOptionGroup(optionGroup);
         HelpFormatter help = new HelpFormatter();
         help.setWidth(120);
-
+        Engine engine = null;
         CommandLineParser lineParser = new DefaultParser();
         try {
             CommandLine cmd = lineParser.parse(options, args);
             String path;
-            Engine engine = null;
+
             if (cmd.hasOption("h")) {
                 help.setSyntaxPrefix("Reference:");
                 help.printHelp("This application evaluate a set of rules presented in the form of a logical expression consisting of a set of facts " +
@@ -109,13 +109,14 @@ public class Main {
             } else {
                 help.setSyntaxPrefix("Error:");
                 help.printHelp(" To correctly launch the application, you must enter one of the following options.", options);
-            }
-            if (engine != null) {
-                engine.run();
+                return;
             }
         } catch (Exception e) {
             System.out.print(e.getMessage());
+            return;
         }
+
+        engine.run();
     }
 }
 

@@ -4,6 +4,7 @@ import converter.IConverter;
 import converter.TextToDBConverter;
 import converter.TextToXmlConverter;
 import converter.XmlToDBConverter;
+import exception.EngineException;
 import interconnection.Interconnection;
 import model.Model;
 import parser.DBParser;
@@ -31,13 +32,29 @@ public class Engine {
         TEXT_TO_XML
     }
 
-    public Engine(Interconnection interconnection, Mode mode, String path) {
+    public Engine(Interconnection interconnection, Mode mode, String path) throws EngineException {
+        switch (mode) {
+            case TEXT_TO_DATABASE:
+                throw new EngineException("wrong mode");
+            case TEXT_TO_XML:
+                throw new EngineException("wrong mode");
+            case XML_TO_DATABASE:
+                throw new EngineException("wrong mode");
+        }
         this.interconnection = interconnection;
         this.mode = mode;
         this.path = path;
     }
 
-    public Engine(Interconnection interconnection, Mode mode, String path, String targetPath) {
+    public Engine(Interconnection interconnection, Mode mode, String path, String targetPath) throws EngineException {
+        switch (mode) {
+            case TEXT:
+                throw new EngineException("wrong mode");
+            case XML:
+                throw new EngineException("wrong mode");
+            case DATABASE:
+                throw new EngineException("wrong mode");
+        }
         this.interconnection = interconnection;
         this.mode = mode;
         this.path = path;
@@ -49,6 +66,7 @@ public class Engine {
             switch (mode) {
                 case NULL:
                     interconnection.showErrorMessage("Unknown error");
+                    break;
                 case TEXT:
                     parseAndEvaluate(new TextParser(), path);
                     break;
@@ -59,10 +77,10 @@ public class Engine {
                     parseAndEvaluate(new DBParser(), path);
                     break;
                 case TEXT_TO_XML:
-                    convert(new TextToXmlConverter(),path,targetPath);
+                    convert(new TextToXmlConverter(), path, targetPath);
                     break;
                 case XML_TO_DATABASE:
-                    convert(new XmlToDBConverter(),path,targetPath);
+                    convert(new XmlToDBConverter(), path, targetPath);
                     break;
                 case TEXT_TO_DATABASE:
                     convert(new TextToDBConverter(), path, targetPath);
