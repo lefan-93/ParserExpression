@@ -64,7 +64,7 @@ public class MainTest {
 
     @Test
     public void optionsTest4() {
-        String args[] = {"-help"};
+        String args[] = {"-h"};
         ByteArrayOutputStream buff = new ByteArrayOutputStream();
         System.setOut(new PrintStream(buff));
         Main.main(args);

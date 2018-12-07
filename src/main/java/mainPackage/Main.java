@@ -88,6 +88,7 @@ public class Main {
                                             "Evaluate are made on the basis of the presented set of facts.\n" +
                                             "A set of rules and facts can be presented in the form of texts or xml format or database.\n " +
                                             "to launch the application you can use the following commands: ", options);
+                return;
             } else if (cmd.hasOption("f")) {
                 path = cmd.getOptionValue("f");
                  engine = new Engine(new UserConsoleInterconnection(), Engine.Mode.TEXT, path );
@@ -100,7 +101,7 @@ public class Main {
             } else if (cmd.hasOption("d")) {
                 String[] arguments = cmd.getOptionValues("d");
                  engine = new Engine(new UserConsoleInterconnection(), Engine.Mode.TEXT_TO_DATABASE,arguments[0],arguments[0]);
-            }else if (cmd.hasOption("tx")) {
+            }else if (cmd.hasOption("l")) {
                 String[] arguments = cmd.getOptionValues("l");
               engine = new Engine(new UserConsoleInterconnection(), Engine.Mode.TEXT_TO_XML, arguments[0], arguments[1]);
             } else if (cmd.hasOption("m")) {

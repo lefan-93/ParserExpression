@@ -1,4 +1,4 @@
-@XmlSchema( namespace = "http://www.amazanov.com/model/XMLschema",
+@XmlSchema( namespace = "http://www.pooh.com/model/XMLschema",
         elementFormDefault = XmlNsForm.QUALIFIED)
 package model;
 import javax.xml.bind.annotation.XmlNsForm;

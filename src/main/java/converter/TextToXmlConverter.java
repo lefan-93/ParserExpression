@@ -21,7 +21,7 @@ public class TextToXmlConverter implements IConverter {
         JAXBContext context = JAXBContext.newInstance(Model.class,Rule.class, AndExpression.class, OrExpression.class, FactExpression.class);
         Marshaller marshaller = context.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-        marshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, "http://www.pooh.com/XMLSchema rulesSchema.xsd");
+        marshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, "http://www.pooh.com/model/XMLschema rulesSchema.xsd");
         marshaller.marshal(model, file);
         parser = new XmlParser();
         Model dbModel = parser.parse(pathXmlFile);

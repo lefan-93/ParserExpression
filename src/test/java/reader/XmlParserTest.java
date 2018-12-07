@@ -1,5 +1,6 @@
 package reader;
 
+import mainPackage.Main;
 import model.Model;
 import org.junit.Test;
 import parser.TextParser;
@@ -8,6 +9,8 @@ import parser.XmlParser;
 import javax.xml.bind.UnmarshalException;
 import javax.xml.bind.annotation.XmlElement;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Set;
@@ -49,13 +52,13 @@ public class XmlParserTest {
             parser.parse("target/test_resources/xml_parser_tests/missing_rules_tag_test.xml");
             fail();
         } catch (UnmarshalException e) {
-            assertTrue(e.getLinkedException().getMessage().contains("One of '{Rules}' is expected."));
+            assertTrue(e.getLinkedException().getMessage().contains("One of"));
         }
         try {
             parser.parse("target/test_resources/xml_parser_tests/missing_rule_tag_test.xml");
             fail();
         } catch (UnmarshalException e) {
-            assertTrue(e.getLinkedException().getMessage().contains("One of '{Rule}' is expected."));
+            assertTrue(e.getLinkedException().getMessage().contains("One of"));
         }
     }
 
@@ -103,5 +106,4 @@ public class XmlParserTest {
             fail();
         }
     }
-
 }
