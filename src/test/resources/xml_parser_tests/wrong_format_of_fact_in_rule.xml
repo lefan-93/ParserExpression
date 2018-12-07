@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Model>
     <Rules>
-        <Rule result_fact="F D">
+        <Rule resultFact="F D">
             <And>
                 <Fact fact="D"/>
                 <Fact fact="W"/>
             </And>
         </Rule>
-        <Rule result_fact="E">
+        <Rule resultFact="E">
             <Or>
                 <Or>
                     <Fact fact="A"/>
